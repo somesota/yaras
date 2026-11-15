@@ -4,7 +4,7 @@ import "pe"
 // ---------------------------------------------------------------------
 // Campaign Rule (Mix1 build)
 // ---------------------------------------------------------------------
-rule GoWordCount_CampaignMix1
+rule MAL_GorkCrypter_CampaignMix1
 {
     meta:
         description    = "Detects Go packer via its Go build ID, garble-obfuscated symbol names, rodata literal-pool layout and blob-decoder startup constants"
@@ -13,7 +13,7 @@ rule GoWordCount_CampaignMix1
         version        = "2.0"
         sample_sha256  = "21768f84350ec5f530bd1ebf6058c8840c55b0513eaca927b623500c81f834e2"
         sample_md5     = "3b48178697b9231ef43c0f167c9202fc"
-        family         = "GoWordCount"
+        family         = "GorkCrypter"
         confidence     = "High"
         tlp            = "TLP:WHITE"
         mitre_attack   = "T1027, T1140"
@@ -61,16 +61,16 @@ rule GoWordCount_CampaignMix1
 // ---------------------------------------------------------------------
 // Campaign Rule (Mix2 build)
 // ---------------------------------------------------------------------
-rule GoWordCount_CampaignMix2
+rule MAL_GorkCrypter_CampaignMix2
 {
     meta:
-        description    = "Detects copies of the Mix2 build of the GoWordCount Go packer via the per-build key and blob-length constants at its blob-decode call site"
+        description    = "Detects copies of the Mix2 build of the GorkCrypter Go packer via the per-build key and blob-length constants at its blob-decode call site"
         author         = "somesota"
         date           = "2026-09-20"
         version        = "1.0"
         sample_sha256  = "b10c774e310afc6f2c71fc294b39b0402c8ace437e71bb1ece12473e0f22ebf3"
         sample_md5     = "1434f56494d7f652dc42b079d21c4a35"
-        family         = "GoWordCount"
+        family         = "GorkCrypter"
         confidence     = "High"
         tlp            = "TLP:WHITE"
         mitre_attack   = "T1140, T1027.002"
@@ -94,16 +94,16 @@ rule GoWordCount_CampaignMix2
 // ---------------------------------------------------------------------
 // Family Rule (Go toolchain traits, key/infrastructure-agnostic)
 // ---------------------------------------------------------------------
-rule GoWordCount_Family
+rule MAL_GorkCrypter_Family
 {
     meta:
-        description    = "Detects GoWordCount Go packer builds via toolchain traits that survive a rebuild with new keys: a Go 1.21/1.22 build tag, syscall.LazyDLL runtime strings, a .symtab section and a KERNEL32-only import table"
+        description    = "Detects GorkCrypter Go packer builds via toolchain traits that survive a rebuild with new keys: a Go 1.21/1.22 build tag, syscall.LazyDLL runtime strings, a .symtab section and a KERNEL32-only import table"
         author         = "somesota"
         date           = "2026-09-20"
         version        = "1.0"
         sample_sha256  = "b10c774e310afc6f2c71fc294b39b0402c8ace437e71bb1ece12473e0f22ebf3"
         sample_md5     = "1434f56494d7f652dc42b079d21c4a35"
-        family         = "GoWordCount"
+        family         = "GorkCrypter"
         confidence     = "Medium"
         tlp            = "TLP:WHITE"
         mitre_attack   = "T1027, T1106, T1129"
@@ -134,7 +134,7 @@ rule GoWordCount_Family
 // ---------------------------------------------------------------------
 // Blob Decoder Call Site (key-agnostic, both build shapes)
 // ---------------------------------------------------------------------
-rule GoWordCount_BlobDecoderCallsite
+rule MAL_GorkCrypter_BlobDecoderCallsite
 {
     meta:
         description    = "Detects the call site that copies an embedded .rdata blob into a stack buffer and runs a six-pass keyed byte transform on it, with stack offsets, blob address, lengths, key and call target wildcarded so it survives key rotation"
@@ -143,7 +143,7 @@ rule GoWordCount_BlobDecoderCallsite
         version        = "1.0"
         sample_sha256  = "b10c774e310afc6f2c71fc294b39b0402c8ace437e71bb1ece12473e0f22ebf3"
         sample_md5     = "1434f56494d7f652dc42b079d21c4a35"
-        family         = "GoWordCount"
+        family         = "GorkCrypter"
         confidence     = "Medium"
         tlp            = "TLP:WHITE"
         mitre_attack   = "T1140, T1027.002, T1129"
@@ -191,7 +191,7 @@ rule GoWordCount_BlobDecoderCallsite
 // ---------------------------------------------------------------------
 // Anti-Analysis Decoy (inlined word-counter camouflage)
 // ---------------------------------------------------------------------
-rule GoWordCount_DecoyWordCounterCamouflage
+rule MAL_GorkCrypter_DecoyWordCounterCamouflage
 {
     meta:
         description    = "Detects the packer's camouflage: a working word-counter demo routine, built around a fixed 48-byte sentence, that the obfuscator inlines dozens of times to bury the real blob-decoder logic"
@@ -200,7 +200,7 @@ rule GoWordCount_DecoyWordCounterCamouflage
         version        = "2.0"
         sample_sha256  = "21768f84350ec5f530bd1ebf6058c8840c55b0513eaca927b623500c81f834e2"
         sample_md5     = "3b48178697b9231ef43c0f167c9202fc"
-        family         = "GoWordCount"
+        family         = "GorkCrypter"
         confidence     = "Medium"
         tlp            = "TLP:WHITE"
         mitre_attack   = "T1027, T1027.002, T1140"
@@ -243,7 +243,7 @@ rule GoWordCount_DecoyWordCounterCamouflage
 // Matches any Go binary that imports only KERNEL32 and resolves the rest
 // through syscall.LazyDLL. Legitimate Go tools share this pattern, so use it
 // for hunting and never for automated blocking.
-rule GoWordCount_DynamicApiResolution
+rule MAL_GorkCrypter_DynamicApiResolution
 {
     meta:
         description    = "Flags Go PE binaries that import only KERNEL32.dll and resolve every other API at runtime through syscall.LazyDLL/LazyProc, the general technique of this packer family"
@@ -252,7 +252,7 @@ rule GoWordCount_DynamicApiResolution
         version        = "1.0"
         sample_sha256  = "b10c774e310afc6f2c71fc294b39b0402c8ace437e71bb1ece12473e0f22ebf3"
         sample_md5     = "1434f56494d7f652dc42b079d21c4a35"
-        family         = "GoWordCount"
+        family         = "GorkCrypter"
         confidence     = "Low"
         tlp            = "TLP:WHITE"
         mitre_attack   = "T1106, T1027"
@@ -274,7 +274,7 @@ rule GoWordCount_DynamicApiResolution
 // ---------------------------------------------------------------------
 // Signer Certificate (self-issued, one entry per build)
 // ---------------------------------------------------------------------
-rule GoWordCount_SelfIssuedSignerCert
+rule MAL_GorkCrypter_SelfIssuedSignerCert
 {
     meta:
         description    = "Detects PEs Authenticode-signed with one of the packer's self-issued certificates: 'Cedar Stone Collective' on Mix1 and 'Delta Dynamics Group' on Mix2"
@@ -282,7 +282,7 @@ rule GoWordCount_SelfIssuedSignerCert
         date           = "2026-09-03"
         version        = "2.1"
         sample_sha256  = "21768f84350ec5f530bd1ebf6058c8840c55b0513eaca927b623500c81f834e2, b10c774e310afc6f2c71fc294b39b0402c8ace437e71bb1ece12473e0f22ebf3"
-        family         = "GoWordCount"
+        family         = "GorkCrypter"
         confidence     = "High"
         tlp            = "TLP:WHITE"
         mitre_attack   = "T1553.002, T1588.003"
