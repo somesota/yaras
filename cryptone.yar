@@ -1,3 +1,4 @@
+// TLP (strictest rule): WHITE
 import "hash"
 
 // ---------------------------------------------------------------------
@@ -6,7 +7,7 @@ import "hash"
 rule CryptOne_GCleanerCampaign
 {
     meta:
-        description    = "Detects this build/campaign's CryptOne loader via its exact custom resource identifiers and hardcoded constant-setup and XOR-key derivation code"
+        description    = "Detects this build/campaign's CryptOne packer via its exact custom resource identifiers and hardcoded constant-setup and XOR-key derivation code"
         author         = "somesota"
         date           = "2026-08-30"
         version        = "1.0"
@@ -49,12 +50,12 @@ rule CryptOne_GCleanerCampaign
 }
 
 // ---------------------------------------------------------------------
-// Family Rule (CryptOne Delphi loader, campaign/key-agnostic)
+// Family Rule (CryptOne Delphi packer, campaign/key-agnostic)
 // ---------------------------------------------------------------------
 rule CryptOne_DelphiFamily
 {
     meta:
-        description    = "Detects the CryptOne Delphi/VCL loader family via its generic decrypt-stub code idiom and dynamic-import-resolution pattern, independent of this build's specific resource names or XOR key"
+        description    = "Detects the CryptOne Delphi/VCL packer family via its generic decrypt-stub code idiom and dynamic-import-resolution pattern, independent of this build's specific resource names or XOR key"
         author         = "somesota"
         date           = "2026-08-30"
         version        = "1.0"
@@ -102,12 +103,12 @@ rule CryptOne_DelphiFamily
 }
 
 // ---------------------------------------------------------------------
-//  Packer/Loader (decrypt-then-non-CALL-tail-jump)
+//  Packer (decrypt-then-non-CALL-tail-jump)
 // ---------------------------------------------------------------------
 rule CryptOne_DelphiResourceDecryptTailJumpLoader
 {
     meta:
-        description    = "Detects the CryptOne loader's technique of decrypting an embedded PE resource in-memory and transferring control to it via a PUSH-target/RET tail jump (no CALL instruction), leaving 6 stack values as ad hoc arguments"
+        description    = "Detects the CryptOne packer's technique of decrypting an embedded PE resource in-memory and transferring control to it via a PUSH-target/RET tail jump (no CALL instruction), leaving 6 stack values as ad hoc arguments"
         author         = "somesota"
         date           = "2026-08-30"
         version        = "1.0"

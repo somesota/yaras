@@ -1,3 +1,4 @@
+// TLP (strictest rule): WHITE
 import "pe"
 import "hash"
 
@@ -6,7 +7,7 @@ import "hash"
 //  RWX Alloc-Decrypt-ManualMap-Execute Orchestrator
 //           (the Packer rule for this sample)
 // ===========================================================================
-rule MAL_ArxCrypter_RWXDecryptExecuteOrchestrator
+rule ArxCrypter_RWXDecryptExecuteOrchestrator
 {
     meta:
         description    = "Detects the crypter/packer's alloc-RWX -> memcpy ciphertext -> custom-cipher-decrypt -> manual-map-and-run orchestrator function, identified by its exact sequence of hash-resolved-API constants, allocation size, and protection flags"
@@ -15,7 +16,7 @@ rule MAL_ArxCrypter_RWXDecryptExecuteOrchestrator
         version        = "1.0"
         sample_sha256  = "5541bf99ebfee0f4c9ab33624b49e125348bf02280b9efbb8824919f53c8630c"
         sample_md5     = "803fa2ddc9de8e377e526a06aca89551"
-        family         = "arxcrypter"
+        family         = "ArxCrypter"
         confidence     = "High"
         tlp            = "TLP:WHITE"
         mitre_attack   = "T1140, T1620, T1027.002"
@@ -71,7 +72,7 @@ rule MAL_ArxCrypter_RWXDecryptExecuteOrchestrator
 // ===========================================================================
 // CIS-Locale + Tick-Count Anti-Sandbox Gates
 // ===========================================================================
-rule MAL_ArxCrypter_CISLocaleTimingAntiAnalysis
+rule ArxCrypter_CISLocaleTimingAntiAnalysis
 {
     meta:
         description    = "Detects the packer's two anti-analysis gates: a CIS-region (Russia/Belarus) locale/keyboard-layout check and a ~1000ms+/-50ms GetTickCount-based timing check, both resolved via hash-based API lookup rather than the import table"
@@ -80,7 +81,7 @@ rule MAL_ArxCrypter_CISLocaleTimingAntiAnalysis
         version        = "1.0"
         sample_sha256  = "5541bf99ebfee0f4c9ab33624b49e125348bf02280b9efbb8824919f53c8630c"
         sample_md5     = "803fa2ddc9de8e377e526a06aca89551"
-        family         = "arxcrypter"
+        family         = "ArxCrypter"
         confidence     = "High"
         tlp            = "TLP:WHITE"
         mitre_attack   = "T1497.001, T1622, T1614.001"
@@ -116,7 +117,7 @@ rule MAL_ArxCrypter_CISLocaleTimingAntiAnalysis
 // ===========================================================================
 //  No-IAT XXHash32-Based Dynamic API Resolution
 // ===========================================================================
-rule MAL_ArxCrypter_XXHash32NoIATApiResolution
+rule ArxCrypter_XXHash32NoIATApiResolution
 {
     meta:
         description    = "Detects a compiled XXHash32 (seed 0) avalanche/finalization sequence used as the malware's export-name hashing function for import-free (no-IAT) API resolution via PEB-walk"
@@ -125,7 +126,7 @@ rule MAL_ArxCrypter_XXHash32NoIATApiResolution
         version        = "1.0"
         sample_sha256  = "5541bf99ebfee0f4c9ab33624b49e125348bf02280b9efbb8824919f53c8630c"
         sample_md5     = "803fa2ddc9de8e377e526a06aca89551"
-        family         = "arxcrypter"
+        family         = "ArxCrypter"
         confidence     = "Medium"
         tlp            = "TLP:WHITE"
         mitre_attack   = "T1027.007"
@@ -156,7 +157,7 @@ rule MAL_ArxCrypter_XXHash32NoIATApiResolution
 // ===========================================================================
 // Custom Stream-Cipher Key-Schedule (SHA-256-IV-ARX)
 // ===========================================================================
-rule MAL_ArxCrypter_CustomStreamCipherKeySchedule
+rule ArxCrypter_CustomStreamCipherKeySchedule
 {
     meta:
         description    = "Detects the non-standard stream cipher's key-schedule routine: SHA-256 initial-hash-value constants loaded as scattered MOV-immediate operands (not a real SHA-256 compression, only the IV words borrowed as ARX mixing seeds) combined with the scheme's two 32-byte constant substitution tables"
@@ -165,7 +166,7 @@ rule MAL_ArxCrypter_CustomStreamCipherKeySchedule
         version        = "1.0"
         sample_sha256  = "5541bf99ebfee0f4c9ab33624b49e125348bf02280b9efbb8824919f53c8630c"
         sample_md5     = "803fa2ddc9de8e377e526a06aca89551"
-        family         = "Unknown"
+        family         = "ArxCrypter"
         confidence     = "High"
         tlp            = "TLP:WHITE"
         mitre_attack   = "T1027, T1140"
@@ -209,7 +210,7 @@ rule MAL_ArxCrypter_CustomStreamCipherKeySchedule
 // ===========================================================================
 //  Fabricated Builder Version-Resource Metadata
 // ===========================================================================
-rule MAL_ArxCrypter_DecoyVersionInfoMetadata
+rule ArxCrypter_DecoyVersionInfoMetadata
 {
     meta:
         description    = "Detects the fabricated (Faker/Bogus-style) VS_VERSION_INFO metadata embedded by the crypter builder — a randomly-generated company/product identity that does not correspond to any real software"
@@ -218,7 +219,7 @@ rule MAL_ArxCrypter_DecoyVersionInfoMetadata
         version        = "1.0"
         sample_sha256  = "5541bf99ebfee0f4c9ab33624b49e125348bf02280b9efbb8824919f53c8630c"
         sample_md5     = "803fa2ddc9de8e377e526a06aca89551"
-        family         = "arxcrypter"
+        family         = "ArxCrypter"
         confidence     = "Medium"
         tlp            = "TLP:WHITE"
         mitre_attack   = "T1036.005"

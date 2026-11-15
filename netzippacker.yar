@@ -1,7 +1,8 @@
+// TLP (strictest rule): WHITE
 // ----------------------------------------------------------------------------
 // Family Rule (NetZipPacker template, Win32 packer)
 // ----------------------------------------------------------------------------
-rule MAL_NetZipPacker_TemplateFamily
+rule NetZipPacker_TemplateFamily
 {
     meta:
         description    = "Detects the NetZipPacker/StateofDecay .NET template shared by FishCrypter builds, independent of build token and password: class and method names plus a decoy Advent-of-Code literal"
@@ -38,7 +39,7 @@ rule MAL_NetZipPacker_TemplateFamily
 // ----------------------------------------------------------------------------
 // Family Rule (NetZipPacker template, Win64 packer)
 // ----------------------------------------------------------------------------
-rule MAL_NetZipPacker_Win64Family
+rule NetZipPacker_Win64Family
 {
     meta:
         description    = "Detects the NetZipPacker .NET template of the win64 builds, independent of build token and password: the StateofDecay decoy namespace plus the LfdReader.dll and ADXPlot crypto-helper names"
@@ -75,7 +76,7 @@ rule MAL_NetZipPacker_Win64Family
 // ----------------------------------------------------------------------------
 // Anti-Analysis Drop-and-Launch Chain
 // ----------------------------------------------------------------------------
-rule MAL_NetZipPacker_DropAndLaunchSandboxCheck
+rule NetZipPacker_DropAndLaunchSandboxCheck
 {
     meta:
         description    = "Detects the CovertOperationModule drop-and-launch method chain (extract the embedded ZIP, then Process.Start) together with its IsRunningFromCopy execution-path check"
@@ -113,7 +114,7 @@ rule MAL_NetZipPacker_DropAndLaunchSandboxCheck
 // ----------------------------------------------------------------------------
 // Marker File Drop
 // ----------------------------------------------------------------------------
-rule MAL_NetZipPacker_MarkerFileDrop
+rule NetZipPacker_MarkerFileDrop
 {
     meta:
         description    = "Detects the stub_exe.dat marker: when the hidden-payload trigger fires, the packer writes its own file path to stub_exe.dat under %LOCALAPPDATA%\\Microsoft\\Windows\\Caches\\ and %TEMP%\\BrightInfo\\cache\\"
@@ -121,6 +122,7 @@ rule MAL_NetZipPacker_MarkerFileDrop
         date           = "2026-08-30"
         version        = "1.0"
         sample_sha256  = "20082d2052d2d406bb4193990d933dc9b78bf2ccc3f2618144ada1fb7e0a995e, 64acf136e30d15f4ff8fe0eee978d30c249d28ca7578cf60d138aa79cb4e7632"
+        sample_md5     = "8adc5c25b4fe2bfe0fd5d623ade01b76, 6d3be6d1627576a18a464bf890a8f96b"
         family         = "NetZipPacker"
         confidence     = "High"
         tlp            = "TLP:WHITE"

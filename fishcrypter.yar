@@ -1,7 +1,8 @@
+// TLP (strictest rule): WHITE
 // ----------------------------------------------------------------------------
 // Campaign Rule (build S0C00, Win32 packer)
 // ----------------------------------------------------------------------------
-rule MAL_FishCrypter_Campaign_S0C00
+rule FishCrypter_Campaign_S0C00
 {
     meta:
         description    = "Detects the S0C00 build wave of the FishCrypter .NET packer (builder string LX_CRYPTER) via its builder PDB path, build token and embedded ZIP resource name, which survive repacking and padding changes"
@@ -31,7 +32,7 @@ rule MAL_FishCrypter_Campaign_S0C00
 // ----------------------------------------------------------------------------
 // Campaign Rule (build KK050, Win64 packer)
 // ----------------------------------------------------------------------------
-rule MAL_FishCrypter_Campaign_KK050
+rule FishCrypter_Campaign_KK050
 {
     meta:
         description    = "Detects the KK050 build wave of the FishCrypter .NET packer (builder string LX_CRYPTER) (win64) via its builder PDB path and build token, which survive repacking and padding changes"
@@ -59,7 +60,7 @@ rule MAL_FishCrypter_Campaign_KK050
 // ----------------------------------------------------------------------------
 // In-Memory Threefish/X25519 Payload Decryption (Win32 packer)
 // ----------------------------------------------------------------------------
-rule MAL_FishCrypter_ThreefishX25519PayloadDecrypt
+rule FishCrypter_ThreefishX25519PayloadDecrypt
 {
     meta:
         description    = "Detects the bundled LfdReader.dll helper that decrypts a second payload in memory (Base91 decode, PBKDF2, X25519, Threefish-256-CBC) and the DynamicMethod that invokes it reflectively"
@@ -93,7 +94,7 @@ rule MAL_FishCrypter_ThreefishX25519PayloadDecrypt
 // ----------------------------------------------------------------------------
 // Dual Base91+Threefish Payload Decryption (Win64 packer)
 // ----------------------------------------------------------------------------
-rule MAL_FishCrypter_DualBase91ThreefishDecrypt
+rule FishCrypter_DualBase91ThreefishDecrypt
 {
     meta:
         description    = "Detects the win64 packer's decryption of two embedded Base91 blobs (an injector assembly and a native PE) through LfdReader.dll, called reflectively as ADXPlot.Benchmark"
@@ -126,7 +127,7 @@ rule MAL_FishCrypter_DualBase91ThreefishDecrypt
 // ----------------------------------------------------------------------------
 // Reflective Process Hollowing into MSBuild.exe (Win64 packer)
 // ----------------------------------------------------------------------------
-rule MAL_FishCrypter_ReflectiveMSBuildHollow
+rule FishCrypter_ReflectiveMSBuildHollow
 {
     meta:
         description    = "Detects the final injection call: the decrypted in-memory assembly R4.Hollow, invoked through the DynamicCallerV DynamicMethod, against the Microsoft-signed MSBuild.exe path (process hollowing)"
@@ -159,7 +160,7 @@ rule MAL_FishCrypter_ReflectiveMSBuildHollow
 // ILRepack and the padding library are both legitimate. A real application
 // that merges HomagConnect with ILRepack will match, so triage by hand and
 // never block on this rule alone.
-rule MAL_FishCrypter_ILRepackDecoyPadding
+rule FishCrypter_ILRepackDecoyPadding
 {
     meta:
         description    = "Flags .NET PEs merged with ILRepack that carry the HomagConnect.ProductionManager.Contracts SDK, a legitimate library the builds absorb as bulk to disguise themselves"
@@ -167,6 +168,7 @@ rule MAL_FishCrypter_ILRepackDecoyPadding
         date           = "2026-08-30"
         version        = "1.0"
         sample_sha256  = "20082d2052d2d406bb4193990d933dc9b78bf2ccc3f2618144ada1fb7e0a995e, 64acf136e30d15f4ff8fe0eee978d30c249d28ca7578cf60d138aa79cb4e7632"
+        sample_md5     = "8adc5c25b4fe2bfe0fd5d623ade01b76, 6d3be6d1627576a18a464bf890a8f96b"
         family         = "FishCrypter"
         confidence     = "Low"
         tlp            = "TLP:WHITE"
